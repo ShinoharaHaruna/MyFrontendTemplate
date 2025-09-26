@@ -5,17 +5,24 @@
 [![Made with Love](https://img.shields.io/badge/Made%20with-Love-1f425f.svg)](https://github.com/ShinoharaHaruna/MyFrontendTemplate)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A modern, opinionated, and out-of-the-box frontend template designed for rapid project initiation. This template is built with React, TypeScript, and utilizes Yarn Berry for efficient package management.
+A modern, opinionated, and out-of-the-box frontend template designed for rapid project initiation. It now showcases a shadcn-ui powered dashboard demo, built with React, TypeScript, Tailwind CSS v4, and managed by Yarn Berry.
 
 ## ✨ Features
 
-- **React 18**: The latest version of the popular UI library.
-- **TypeScript**: For static typing and improved developer experience.
-- **Vite**: Next generation frontend tooling for a fast development experience.
-- **Yarn Berry (PnP)**: Modern, reliable, and fast package management.
-- **ESLint & Prettier**: Integrated for consistent code style and quality.
-- **Path Aliases**: Pre-configured with `@/` pointing to the `src` directory.
-- **Vercel Ready**: Pre-configured for seamless deployment on Vercel.
+- **React 19**: Latest React runtime with modern concurrency improvements.
+- **TypeScript (strict)**: Static typing for a safer, faster feedback loop.
+- **Vite 7**: Instant dev server startup and lightning-fast HMR.
+- **Tailwind CSS v4 + shadcn-ui**: Pre-styled components (`Tabs`, `Card`, `Switch`, etc.) with design tokens ready out of the box.
+- **Yarn Berry (PnP)**: Modern, reliable, zero-install friendly package management.
+- **ESLint & Prettier**: Opinionated linting and formatting configured with `.editorconfig`.
+- **Path Aliases**: `@/` points to the `src` directory for ergonomic imports.
+- **Vercel Ready**: Deployment notes tailored for Yarn PnP powered builds.
+
+## 🎨 Demo Overview
+
+- **Dashboard layout**: `src/App.tsx` renders multi-column cards, tabbed views, and a status timeline using shadcn-ui primitives.
+- **Dark mode persistence**: A `Switch` component toggles the theme while syncing preference to `localStorage`.
+- **Collaboration focus**: Team roster, milestones, and activity feed illustrate how to compose complex UI quickly.
 
 ## 🚀 Getting Started
 
@@ -58,7 +65,10 @@ After running this, you may need to restart VS Code or run the `TypeScript: Rest
 ├── .yarn/             # Yarn Berry files
 ├── src/
 │   ├── App.tsx        # Main React component
+│   ├── components/
+│   │   └── ui/        # shadcn-ui components (button, card, tabs, ...)
 │   ├── index.css      # Global styles
+│   ├── lib/utils.ts   # Utility helpers (e.g., cn)
 │   └── main.tsx       # Application entry point
 ├── .editorconfig      # Editor configuration
 ├── .eslintrc.cjs      # ESLint configuration
@@ -101,6 +111,16 @@ Due to how Yarn v4+ handles caching, you need to override the default install co
     ```
 
 > **Note**: This ensures that Vercel uses the local cache within your project's `node_modules` directory instead of a global cache, which is necessary for the build process to work correctly.
+
+## 🧩 Extending the UI Library
+
+Use the official shadcn-ui CLI to scaffold additional components on demand:
+
+```bash
+yarn dlx shadcn@latest add accordion dialog form
+```
+
+Components are placed under `src/components/ui/` and wired to Tailwind CSS variables automatically.
 
 ## 📄 License
 

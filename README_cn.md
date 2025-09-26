@@ -5,17 +5,24 @@
 [![Made with Love](https://img.shields.io/badge/Made%20with-Love-1f425f.svg)](https://github.com/ShinoharaHaruna/MyFrontendTemplate)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-一个现代的、有明确技术选型的、开箱即用的前端模板，旨在快速启动新项目。该模板基于 React 和 TypeScript 构建，并使用 Yarn Berry 进行高效的包管理。
+一个现代的、有明确技术选型的、开箱即用的前端模板，旨在快速启动新项目。现在内置了基于 shadcn-ui 的仪表盘示例，使用 React、TypeScript、Tailwind CSS v4 构建，并由 Yarn Berry 管理。
 
 ## ✨ 功能
 
-- **React 18**: 使用最新版的流行 UI 库。
-- **TypeScript**: 支持静态类型，提升开发体验。
-- **Vite**: 下一代前端工具，提供极速的开发体验。
-- **Yarn Berry (PnP)**: 使用现代、可靠、快速的包管理器。
-- **ESLint & Prettier**: 集成了 ESLint 和 Prettier，以确保代码风格和质量的一致性。
-- **Path Aliases**: 预设了 `@/` 路径别名，指向 `src` 目录。
-- **Vercel Ready**: 已为 Vercel 平台预先配置，可实现无缝部署。
+- **React 19**: 采用最新的 React 运行时，解锁更先进的并发能力。
+- **TypeScript（strict）**: 静态类型支持，带来更安全、更高效的反馈循环。
+- **Vite 7**: 几乎即时的开发服务器启动与极速 HMR。
+- **Tailwind CSS v4 + shadcn-ui**: 预装 `Tabs`、`Card`、`Switch` 等组件，设计变量开箱即用。
+- **Yarn Berry (PnP)**: 现代、可靠、支持 zero-install 的包管理。
+- **ESLint & Prettier**: 与 `.editorconfig` 协同的统一 lint 与格式化配置。
+- **Path Aliases**: `@/` 指向 `src` 目录，导入路径更简洁。
+- **Vercel Ready**: 针对 Yarn PnP 的部署说明已就绪。
+
+## 🎨 示例概览
+
+- **仪表盘布局**: `src/App.tsx` 利用 shadcn-ui 组件展示多列卡片、标签页与时间线。
+- **暗色模式持久化**: `Switch` 组件控制主题，并将偏好同步到 `localStorage`。
+- **协作场景聚焦**: 团队列表、里程碑与活动信息展示快速搭建复杂界面的思路。
 
 ## 🚀 快速开始
 
@@ -58,7 +65,10 @@ yarn dlx @yarnpkg/sdks vscode
 ├── .yarn/             # Yarn Berry files
 ├── src/
 │   ├── App.tsx        # Main React component
+│   ├── components/
+│   │   └── ui/        # shadcn-ui components (button, card, tabs, ...)
 │   ├── index.css      # Global styles
+│   ├── lib/utils.ts   # Utility helpers (e.g., cn)
 │   └── main.tsx       # Application entry point
 ├── .editorconfig      # Editor configuration
 ├── .eslintrc.cjs      # ESLint configuration
@@ -101,6 +111,16 @@ yarn dlx @yarnpkg/sdks vscode
     ```
 
 > **注意**：这样可以确保 Vercel 使用项目 `node_modules` 目录下的本地缓存，而不是全局缓存，这对于构建过程的正常工作是必需的。
+
+## 🧩 扩展 UI 组件库
+
+使用官方的 shadcn-ui CLI 按需生成更多组件：
+
+```bash
+yarn dlx shadcn@latest add accordion dialog form
+```
+
+组件将自动落在 `src/components/ui/` 下，并与 Tailwind CSS 变量完成绑定。
 
 ## 📄 许可证
 
