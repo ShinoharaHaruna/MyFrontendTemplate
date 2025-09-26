@@ -1,127 +1,274 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
+import { Bell, Calendar, CheckCircle2, MessageCircle } from "lucide-react"
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Separator } from "@/components/ui/separator"
+import { Switch } from "@/components/ui/switch"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Textarea } from "@/components/ui/textarea"
+
+const teamMembers = [
+  { name: "李嘉", role: "Design Lead", initials: "JL" },
+  { name: "Chen Wei", role: "Product", initials: "CW" },
+  { name: "Amy Wong", role: "Frontend", initials: "AW" },
+]
+
+const timeline = [
+  {
+    title: "Landing 页面动效确认",
+    detail: "交互稿已同步，等待前端排期确认。",
+    time: "今天 10:24",
+    icon: CheckCircle2,
+  },
+  {
+    title: "Marketing 提交反馈",
+    detail: "需要突出新春活动信息，Hero 区域加入口号。",
+    time: "昨天 18:05",
+    icon: MessageCircle,
+  },
+  {
+    title: "排期提醒",
+    detail: "周五下午 3 点与后端联调，准备接口验收清单。",
+    time: "周一 09:30",
+    icon: Calendar,
+  },
+]
 
 function App() {
-  // Dark mode toggle state & side-effects
-  // 暗色模式开关的状态与副作用
-  const [dark, setDark] = useState<boolean>(false);
+  // Dark mode toggle state handling
+  // 暗色模式开关的状态处理
+  const [dark, setDark] = useState<boolean>(false)
 
   useEffect(() => {
-    // Initialize from localStorage or OS preference
-    // 从本地存储或系统偏好初始化
-    const stored = localStorage.getItem("theme.dark");
+    // Initialize from localStorage or system preference
+    // 从本地存储或系统偏好初始化暗色模式
+    const stored = localStorage.getItem("theme.dark")
     if (stored === "true") {
-      setDark(true);
-      document.documentElement.classList.add("dark");
-      return;
+      setDark(true)
+      document.documentElement.classList.add("dark")
+      return
     }
     if (stored === "false") {
-      setDark(false);
-      document.documentElement.classList.remove("dark");
-      return;
+      setDark(false)
+      document.documentElement.classList.remove("dark")
+      return
     }
-    const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
     if (prefersDark) {
-      setDark(true);
-      document.documentElement.classList.add("dark");
+      setDark(true)
+      document.documentElement.classList.add("dark")
     }
-  }, []);
+  }, [])
 
   useEffect(() => {
-    // Persist preference & toggle class on <html>
-    // 持久化偏好并在 <html> 上切换类
+    // Sync preference with <html> classList and persist it
+    // 将偏好同步到 <html> 的 classList 并持久化
     if (dark) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme.dark", "true");
+      document.documentElement.classList.add("dark")
+      localStorage.setItem("theme.dark", "true")
     } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme.dark", "false");
+      document.documentElement.classList.remove("dark")
+      localStorage.setItem("theme.dark", "false")
     }
-  }, [dark]);
+  }, [dark])
 
   return (
-    // Root container with gradient background, responsive typography and dark mode colors
-    // 根容器：渐变背景、响应式排版与暗色模式颜色
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-950 text-slate-800 dark:text-slate-100 antialiased">
-      {/* Theme Toggle（主题切换按钮）*/}
-      <div className="fixed right-4 top-4 z-50">
-        <button
-          onClick={() => setDark((v) => !v)}
-          className="inline-flex items-center gap-2 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur px-4 py-2 text-sm font-medium shadow-lg ring-1 ring-slate-900/10 dark:ring-white/10 hover:shadow-xl transition"
-          aria-label="Toggle dark mode"
-        >
-          <span className="h-2 w-2 rounded-full bg-slate-900 dark:bg-white shadow ring-1 ring-black/10"></span>
-          <span className="text-slate-700 dark:text-slate-200">{dark ? "Dark" : "Light"}</span>
-        </button>
+    <div className="min-h-screen bg-background text-foreground antialiased">
+      <div className="mx-auto flex min-h-screen max-w-6xl flex-col px-6 py-8">
+        <header className="flex flex-col gap-6 border-b pb-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="space-y-3">
+            <Badge variant="secondary" className="w-fit">
+              Design Ops
+            </Badge>
+            <div className="space-y-1">
+              <h1 className="text-3xl font-semibold tracking-tight">Shadcn UI 工作台</h1>
+              <p className="text-muted-foreground max-w-xl">
+                用官方组件快速搭建演示页，展示项目概览、团队状态以及日常协作记录。
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <div className="flex items-center gap-3 rounded-lg border px-4 py-2 shadow-sm">
+              <span className="text-sm font-medium">Dark Mode</span>
+              <Switch
+                checked={dark}
+                onCheckedChange={setDark}
+                aria-label="Toggle dark mode"
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" size="icon" className="hidden sm:inline-flex">
+                <Bell className="size-4" />
+              </Button>
+              <Button>新建简报</Button>
+            </div>
+          </div>
+        </header>
+
+        <Tabs defaultValue="overview" className="flex-1 py-6">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <TabsList>
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="updates">Updates</TabsTrigger>
+              <TabsTrigger value="activity">Activity</TabsTrigger>
+            </TabsList>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <Input placeholder="Search tasks… 搜索任务" className="sm:w-64" />
+              <Button variant="ghost" className="justify-start sm:w-auto">
+                <Calendar className="mr-2 size-4" />
+                本周排期
+              </Button>
+            </div>
+          </div>
+
+          <TabsContent value="overview" className="mt-6 space-y-6">
+            <div className="grid gap-6 lg:grid-cols-[1.7fr_1fr]">
+              <Card>
+                <CardHeader className="flex flex-col gap-2">
+                  <Badge variant="outline" className="w-fit">Sprint #12</Badge>
+                  <CardTitle>Landing Page Reboot</CardTitle>
+                  <CardDescription>
+                    整理设计规范、交付动效稿，并协调前后端排期，确保新版上线顺利。
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="grid gap-6 md:grid-cols-2">
+                  <div className="rounded-lg border p-4">
+                    <p className="text-sm text-muted-foreground">完成度 Progress</p>
+                    <div className="mt-3 flex items-center gap-2 text-2xl font-semibold">
+                      78%
+                      <CheckCircle2 className="size-5 text-primary" />
+                    </div>
+                    <p className="mt-1 text-xs text-muted-foreground">剩余 3 项待审核</p>
+                  </div>
+                  <div className="rounded-lg border p-4">
+                    <p className="text-sm text-muted-foreground">下一个里程碑 Next Milestone</p>
+                    <div className="mt-3 flex items-center gap-2 font-semibold">
+                      设计验收 • Thu 16:00
+                    </div>
+                    <p className="mt-1 text-xs text-muted-foreground">已邀请后端与 QA 一同参与</p>
+                  </div>
+                </CardContent>
+                <CardFooter className="gap-3">
+                  <Button variant="outline">查看文件库</Button>
+                  <Button>同步到 Notion</Button>
+                </CardFooter>
+              </Card>
+
+              <div className="grid gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>核心团队 Team</CardTitle>
+                    <CardDescription>最近 24 小时内 3 人已查看最新进度。</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {teamMembers.map((member) => (
+                      <div
+                        key={member.name}
+                        className="flex items-center justify-between gap-4"
+                      >
+                        <div className="flex items-center gap-3">
+                          <Avatar>
+                            <AvatarImage alt={member.name} src={`https://avatar.vercel.sh/${member.initials}`} />
+                            <AvatarFallback>{member.initials}</AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <p className="font-medium leading-none">{member.name}</p>
+                            <p className="text-xs text-muted-foreground">{member.role}</p>
+                          </div>
+                        </div>
+                        <Button size="sm" variant="ghost" className="text-muted-foreground">
+                          发送提醒
+                        </Button>
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+
+                <Card className="border-dashed">
+                  <CardHeader>
+                    <CardTitle>下一次碰头</CardTitle>
+                    <CardDescription>周三上午 10:00 • Google Meet</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-3 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-3">
+                      <Calendar className="size-4" />
+                      制定首屏动画节奏与加载策略
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <MessageCircle className="size-4" />
+                      整理上线 FAQ，确认客服文案
+                    </div>
+                  </CardContent>
+                  <CardFooter>
+                    <Button variant="secondary" className="w-full">
+                      加入会议
+                    </Button>
+                  </CardFooter>
+                </Card>
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="updates" className="mt-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>发布更新 Broadcast Update</CardTitle>
+                <CardDescription>记录关键沟通内容，自动同步到项目群。</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Input placeholder="标题 Title" />
+                <Textarea rows={6} placeholder="写下需要同步的要点…" />
+              </CardContent>
+              <CardFooter className="justify-end gap-3">
+                <Button variant="ghost">保存草稿</Button>
+                <Button>发送</Button>
+              </CardFooter>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="activity" className="mt-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>最近动态 Activity Feed</CardTitle>
+                <CardDescription>关注跨团队协作的关键事件。</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {timeline.map((item, index) => {
+                  const Icon = item.icon
+                  return (
+                    <div key={item.title} className="space-y-2">
+                      <div className="flex items-start gap-3">
+                        <div className="rounded-full border p-2 text-primary">
+                          <Icon className="size-4" />
+                        </div>
+                        <div className="space-y-1">
+                          <p className="font-medium leading-tight">{item.title}</p>
+                          <p className="text-sm text-muted-foreground">{item.detail}</p>
+                          <p className="text-xs text-muted-foreground">{item.time}</p>
+                        </div>
+                      </div>
+                      {index < timeline.length - 1 ? <Separator /> : null}
+                    </div>
+                  )
+                })}
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </div>
-
-      {/* Header: title + subtitle（标题与副标题）*/}
-      <header className="px-6 py-10 text-center">
-        <h1 className="text-3xl md:text-5xl font-bold tracking-tight">Tailwind CSS Demo</h1>
-        <p className="mt-3 text-slate-600 dark:text-slate-400">
-          Utility-first • Responsive • Dark mode • Transitions
-        </p>
-      </header>
-
-      {/* Feature cards grid（特性卡片网格）：响应式 1/2/3 列 */}
-      <main className="px-6 pb-16">
-        <div className="mx-auto max-w-5xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Card 1: Utility-first（工具类优先）*/}
-          <section className="group rounded-2xl bg-white/70 dark:bg-slate-800/60 backdrop-blur shadow-lg ring-1 ring-slate-900/5 dark:ring-white/10 p-6 transition hover:shadow-xl">
-            <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 text-white shadow-sm ring-1 ring-black/5">
-              <span className="text-xl">⚡</span>
-            </div>
-            <h3 className="mt-4 text-xl font-semibold">Utility-first</h3>
-            <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-              Build UI by composing small, single‑purpose utility classes.
-            </p>
-            <button
-              className="mt-4 inline-flex items-center gap-2 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-3 py-2 text-sm font-medium shadow-sm ring-1 ring-black/10 hover:translate-y-[-1px] hover:shadow-md active:translate-y-0 transition"
-            >
-              <span>Try it</span>
-              <span>→</span>
-            </button>
-          </section>
-
-          {/* Card 2: Responsive（响应式）*/}
-          <section className="group rounded-2xl bg-white/70 dark:bg-slate-800/60 backdrop-blur shadow-lg ring-1 ring-slate-900/5 dark:ring-white/10 p-6 transition hover:shadow-xl">
-            <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-teal-500 to-emerald-500 text-white shadow-sm ring-1 ring-black/5">
-              <span className="text-xl">📱</span>
-            </div>
-            <h3 className="mt-4 text-xl font-semibold">Responsive</h3>
-            <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-              Use breakpoints like <code className="font-semibold">sm</code>, <code className="font-semibold">md</code>, <code className="font-semibold">lg</code> to adapt layouts.
-            </p>
-            <div className="mt-4 flex items-center gap-3">
-              <span className="rounded-full bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-2 py-1 text-xs shadow ring-1 ring-black/10">sm:grid-cols-2</span>
-              <span className="rounded-full bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-2 py-1 text-xs shadow ring-1 ring-black/10">lg:grid-cols-3</span>
-            </div>
-          </section>
-
-          {/* Card 3: Dark mode + transitions（暗色模式与过渡）*/}
-          <section className="group rounded-2xl bg-white/70 dark:bg-slate-800/60 backdrop-blur shadow-lg ring-1 ring-slate-900/5 dark:ring-white/10 p-6 transition hover:shadow-xl">
-            <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-rose-500 to-orange-500 text-white shadow-sm ring-1 ring-black/5">
-              <span className="text-xl">🌙</span>
-            </div>
-            <h3 className="mt-4 text-xl font-semibold">Dark mode & Transitions</h3>
-            <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-              Colors and shadows adapt to dark mode, with smooth hover/active transitions.
-            </p>
-            <a
-              href="#"
-              className="mt-4 inline-flex items-center justify-center rounded-lg border border-slate-300/70 dark:border-white/20 px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-200 shadow-sm hover:bg-slate-50/60 dark:hover:bg-white/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-sky-500 focus-visible:ring-offset-white dark:focus-visible:ring-offset-slate-900 transition"
-            >
-              Focus ring demo
-            </a>
-          </section>
-        </div>
-      </main>
-
-      {/* Footer（页脚）*/}
-      <footer className="px-6 pb-10 text-center text-xs text-slate-500 dark:text-slate-400">
-        Powered by Tailwind CSS v4
-      </footer>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
