@@ -46,6 +46,26 @@ A modern, opinionated, and out-of-the-box frontend template designed for rapid p
     yarn dev
     ```
 
+## 🔁 Fork Setup Helper
+
+Automate common renaming steps after forking this repository with `scripts/setup-fork.sh`.
+
+```bash
+./scripts/setup-fork.sh --repo-owner your-github --repo-name awesome-template
+```
+
+- **What it does**
+  - **package.json**: Renames the `name` field.
+  - **README files**: Updates titles, badge links, and clone instructions to point at your fork.
+  - **Git remotes**: Re-points `origin` to your fork and ensures `upstream` references the original template (configurable).
+
+- **Key flags**
+  - `--project-title "Awesome Template"` to customize README headings.
+  - `--package-name awesome-template` to override the npm name.
+  - `--skip-remote` if you prefer to manage git remotes manually.
+
+Run `./scripts/setup-fork.sh --help` for the full option list. You can also invoke it with `bash scripts/setup-fork.sh ...` if execution permissions are not set.
+
 ## 🔧 IDE Integration (VS Code)
 
 This template uses Yarn's Plug'n'Play (PnP) feature, which requires a small setup for IDEs like VS Code to provide correct type-checking and module resolution.

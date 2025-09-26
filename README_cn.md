@@ -46,6 +46,26 @@
     yarn dev
     ```
 
+## 🔁 Fork 设置助手
+
+在 fork 后，可以运行 `scripts/setup-fork.sh` 自动进行重命名与上游配置：
+
+```bash
+./scripts/setup-fork.sh --repo-owner your-github --repo-name awesome-template
+```
+
+- **脚本功能**
+  - **package.json**: 更新 `name` 字段。
+  - **README 系列**: 调整标题、徽章链接以及克隆命令指向你的仓库。
+  - **Git 远程**: 配置 `origin` 为 fork 仓库、`upstream` 指向原模板（可自定义）。
+
+- **常用参数**
+  - `--project-title "Awesome Template"` 自定义 README 标题。
+  - `--package-name awesome-template` 覆盖 npm 包名。
+  - `--skip-remote` 若希望自行管理 git 远程。
+
+运行 `./scripts/setup-fork.sh --help` 获取全部参数说明。如未赋予执行权限，可通过 `bash scripts/setup-fork.sh ...` 调用。
+
 ## 🔧 IDE 集成
 
 本模板使用了 Yarn PnP 特性，这需要对 VS Code 等 IDE 进行简单设置，以提供正确的类型检查和模块解析。
