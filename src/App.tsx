@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react"
-import { Bell, Calendar, CheckCircle2, MessageCircle } from "lucide-react"
+import { useEffect, useState } from 'react';
+import { Bell, Calendar, CheckCircle2, MessageCircle } from 'lucide-react';
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -11,77 +11,79 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Separator } from "@/components/ui/separator"
-import { Switch } from "@/components/ui/switch"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Textarea } from "@/components/ui/textarea"
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
+import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Textarea } from '@/components/ui/textarea';
 
 const teamMembers = [
-  { name: "李嘉", role: "Design Lead", initials: "JL" },
-  { name: "Chen Wei", role: "Product", initials: "CW" },
-  { name: "Amy Wong", role: "Frontend", initials: "AW" },
-]
+  { name: '李嘉', role: 'Design Lead', initials: 'JL' },
+  { name: 'Chen Wei', role: 'Product', initials: 'CW' },
+  { name: 'Amy Wong', role: 'Frontend', initials: 'AW' },
+];
 
 const timeline = [
   {
-    title: "Landing 页面动效确认",
-    detail: "交互稿已同步，等待前端排期确认。",
-    time: "今天 10:24",
+    title: 'Landing 页面动效确认',
+    detail: '交互稿已同步，等待前端排期确认。',
+    time: '今天 10:24',
     icon: CheckCircle2,
   },
   {
-    title: "Marketing 提交反馈",
-    detail: "需要突出新春活动信息，Hero 区域加入口号。",
-    time: "昨天 18:05",
+    title: 'Marketing 提交反馈',
+    detail: '需要突出新春活动信息，Hero 区域加入口号。',
+    time: '昨天 18:05',
     icon: MessageCircle,
   },
   {
-    title: "排期提醒",
-    detail: "周五下午 3 点与后端联调，准备接口验收清单。",
-    time: "周一 09:30",
+    title: '排期提醒',
+    detail: '周五下午 3 点与后端联调，准备接口验收清单。',
+    time: '周一 09:30',
     icon: Calendar,
   },
-]
+];
 
 function App() {
   // Dark mode toggle state handling
   // 暗色模式开关的状态处理
-  const [dark, setDark] = useState<boolean>(false)
+  const [dark, setDark] = useState<boolean>(false);
 
   useEffect(() => {
     // Initialize from localStorage or system preference
     // 从本地存储或系统偏好初始化暗色模式
-    const stored = localStorage.getItem("theme.dark")
-    if (stored === "true") {
-      setDark(true)
-      document.documentElement.classList.add("dark")
-      return
+    const stored = localStorage.getItem('theme.dark');
+    if (stored === 'true') {
+      setDark(true);
+      document.documentElement.classList.add('dark');
+      return;
     }
-    if (stored === "false") {
-      setDark(false)
-      document.documentElement.classList.remove("dark")
-      return
+    if (stored === 'false') {
+      setDark(false);
+      document.documentElement.classList.remove('dark');
+      return;
     }
-    const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+    const prefersDark =
+      window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches;
     if (prefersDark) {
-      setDark(true)
-      document.documentElement.classList.add("dark")
+      setDark(true);
+      document.documentElement.classList.add('dark');
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     // Sync preference with <html> classList and persist it
     // 将偏好同步到 <html> 的 classList 并持久化
     if (dark) {
-      document.documentElement.classList.add("dark")
-      localStorage.setItem("theme.dark", "true")
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme.dark', 'true');
     } else {
-      document.documentElement.classList.remove("dark")
-      localStorage.setItem("theme.dark", "false")
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme.dark', 'false');
     }
-  }, [dark])
+  }, [dark]);
 
   return (
     <div className="min-h-screen bg-background text-foreground antialiased">
@@ -92,7 +94,9 @@ function App() {
               Design Ops
             </Badge>
             <div className="space-y-1">
-              <h1 className="text-3xl font-semibold tracking-tight">Shadcn UI 工作台</h1>
+              <h1 className="text-3xl font-semibold tracking-tight">
+                Shadcn UI 工作台
+              </h1>
               <p className="text-muted-foreground max-w-xl">
                 用官方组件快速搭建演示页，展示项目概览、团队状态以及日常协作记录。
               </p>
@@ -108,7 +112,11 @@ function App() {
               />
             </div>
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="icon" className="hidden sm:inline-flex">
+              <Button
+                variant="outline"
+                size="icon"
+                className="hidden sm:inline-flex"
+              >
                 <Bell className="size-4" />
               </Button>
               <Button>新建简报</Button>
@@ -133,10 +141,12 @@ function App() {
           </div>
 
           <TabsContent value="overview" className="mt-6 space-y-6">
-            <div className="grid gap-6 lg:grid-cols-[1.7fr_1fr]">
+            <div className="grid gap-6 lg:grid-cols-[1.7fr_1fr] animate-in fade-in-0 slide-in-from-right-1 duration-400">
               <Card>
                 <CardHeader className="flex flex-col gap-2">
-                  <Badge variant="outline" className="w-fit">Sprint #12</Badge>
+                  <Badge variant="outline" className="w-fit">
+                    Sprint #12
+                  </Badge>
                   <CardTitle>Landing Page Reboot</CardTitle>
                   <CardDescription>
                     整理设计规范、交付动效稿，并协调前后端排期，确保新版上线顺利。
@@ -144,19 +154,27 @@ function App() {
                 </CardHeader>
                 <CardContent className="grid gap-6 md:grid-cols-2">
                   <div className="rounded-lg border p-4">
-                    <p className="text-sm text-muted-foreground">完成度 Progress</p>
+                    <p className="text-sm text-muted-foreground">
+                      完成度 Progress
+                    </p>
                     <div className="mt-3 flex items-center gap-2 text-2xl font-semibold">
                       78%
                       <CheckCircle2 className="size-5 text-primary" />
                     </div>
-                    <p className="mt-1 text-xs text-muted-foreground">剩余 3 项待审核</p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      剩余 3 项待审核
+                    </p>
                   </div>
                   <div className="rounded-lg border p-4">
-                    <p className="text-sm text-muted-foreground">下一个里程碑 Next Milestone</p>
+                    <p className="text-sm text-muted-foreground">
+                      下一个里程碑 Next Milestone
+                    </p>
                     <div className="mt-3 flex items-center gap-2 font-semibold">
                       设计验收 • Thu 16:00
                     </div>
-                    <p className="mt-1 text-xs text-muted-foreground">已邀请后端与 QA 一同参与</p>
+                    <p className="mt-1 text-xs text-muted-foreground">
+                      已邀请后端与 QA 一同参与
+                    </p>
                   </div>
                 </CardContent>
                 <CardFooter className="gap-3">
@@ -169,7 +187,9 @@ function App() {
                 <Card>
                   <CardHeader>
                     <CardTitle>核心团队 Team</CardTitle>
-                    <CardDescription>最近 24 小时内 3 人已查看最新进度。</CardDescription>
+                    <CardDescription>
+                      最近 24 小时内 3 人已查看最新进度。
+                    </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     {teamMembers.map((member) => (
@@ -179,15 +199,26 @@ function App() {
                       >
                         <div className="flex items-center gap-3">
                           <Avatar>
-                            <AvatarImage alt={member.name} src={`https://avatar.vercel.sh/${member.initials}`} />
+                            <AvatarImage
+                              alt={member.name}
+                              src={`https://avatar.vercel.sh/${member.initials}`}
+                            />
                             <AvatarFallback>{member.initials}</AvatarFallback>
                           </Avatar>
                           <div>
-                            <p className="font-medium leading-none">{member.name}</p>
-                            <p className="text-xs text-muted-foreground">{member.role}</p>
+                            <p className="font-medium leading-none">
+                              {member.name}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              {member.role}
+                            </p>
                           </div>
                         </div>
-                        <Button size="sm" variant="ghost" className="text-muted-foreground">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="text-muted-foreground"
+                        >
                           发送提醒
                         </Button>
                       </div>
@@ -198,7 +229,9 @@ function App() {
                 <Card className="border-dashed">
                   <CardHeader>
                     <CardTitle>下一次碰头</CardTitle>
-                    <CardDescription>周三上午 10:00 • Google Meet</CardDescription>
+                    <CardDescription>
+                      周三上午 10:00 • Google Meet
+                    </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-3 text-sm text-muted-foreground">
                     <div className="flex items-center gap-3">
@@ -221,10 +254,12 @@ function App() {
           </TabsContent>
 
           <TabsContent value="updates" className="mt-6">
-            <Card>
+            <Card className="animate-in fade-in-0 slide-in-from-right-1 duration-400">
               <CardHeader>
                 <CardTitle>发布更新 Broadcast Update</CardTitle>
-                <CardDescription>记录关键沟通内容，自动同步到项目群。</CardDescription>
+                <CardDescription>
+                  记录关键沟通内容，自动同步到项目群。
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <Input placeholder="标题 Title" />
@@ -238,14 +273,14 @@ function App() {
           </TabsContent>
 
           <TabsContent value="activity" className="mt-6">
-            <Card>
+            <Card className="animate-in fade-in-0 slide-in-from-right-1 duration-400">
               <CardHeader>
                 <CardTitle>最近动态 Activity Feed</CardTitle>
                 <CardDescription>关注跨团队协作的关键事件。</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 {timeline.map((item, index) => {
-                  const Icon = item.icon
+                  const Icon = item.icon;
                   return (
                     <div key={item.title} className="space-y-2">
                       <div className="flex items-start gap-3">
@@ -253,14 +288,20 @@ function App() {
                           <Icon className="size-4" />
                         </div>
                         <div className="space-y-1">
-                          <p className="font-medium leading-tight">{item.title}</p>
-                          <p className="text-sm text-muted-foreground">{item.detail}</p>
-                          <p className="text-xs text-muted-foreground">{item.time}</p>
+                          <p className="font-medium leading-tight">
+                            {item.title}
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            {item.detail}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            {item.time}
+                          </p>
                         </div>
                       </div>
                       {index < timeline.length - 1 ? <Separator /> : null}
                     </div>
-                  )
+                  );
                 })}
               </CardContent>
             </Card>
@@ -268,7 +309,7 @@ function App() {
         </Tabs>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
