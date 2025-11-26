@@ -1,9 +1,14 @@
-import { useEffect, useState } from 'react';
-import { Bell, Calendar, CheckCircle2, MessageCircle } from 'lucide-react';
+import { useEffect, useState } from "react";
+import {
+  Bell,
+  Calendar as CalendarIcon,
+  CheckCircle2,
+  MessageCircle,
+} from "lucide-react";
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -11,37 +16,43 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Separator } from '@/components/ui/separator';
-import { Switch } from '@/components/ui/switch';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Textarea } from '@/components/ui/textarea';
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 const teamMembers = [
-  { name: '李嘉', role: 'Design Lead', initials: 'JL' },
-  { name: 'Chen Wei', role: 'Product', initials: 'CW' },
-  { name: 'Amy Wong', role: 'Frontend', initials: 'AW' },
+  { name: "李嘉", role: "Design Lead", initials: "JL" },
+  { name: "Chen Wei", role: "Product", initials: "CW" },
+  { name: "Amy Wong", role: "Frontend", initials: "AW" },
 ];
 
 const timeline = [
   {
-    title: 'Landing 页面动效确认',
-    detail: '交互稿已同步，等待前端排期确认。',
-    time: '今天 10:24',
+    title: "Landing 页面动效确认",
+    detail: "交互稿已同步，等待前端排期确认。",
+    time: "今天 10:24",
     icon: CheckCircle2,
   },
   {
-    title: 'Marketing 提交反馈',
-    detail: '需要突出新春活动信息，Hero 区域加入口号。',
-    time: '昨天 18:05',
+    title: "Marketing 提交反馈",
+    detail: "需要突出新春活动信息，Hero 区域加入口号。",
+    time: "昨天 18:05",
     icon: MessageCircle,
   },
   {
-    title: '排期提醒',
-    detail: '周五下午 3 点与后端联调，准备接口验收清单。',
-    time: '周一 09:30',
-    icon: Calendar,
+    title: "排期提醒",
+    detail: "周五下午 3 点与后端联调，准备接口验收清单。",
+    time: "周一 09:30",
+    icon: CalendarIcon,
   },
 ];
 
@@ -49,27 +60,32 @@ function App() {
   // Dark mode toggle state handling
   // 暗色模式开关的状态处理
   const [dark, setDark] = useState<boolean>(false);
+  // Schedule date state for header calendar
+  // 头部排期日历使用的日期状态
+  const [scheduleDate, setScheduleDate] = useState<Date | undefined>(
+    new Date(),
+  );
 
   useEffect(() => {
     // Initialize from localStorage or system preference
     // 从本地存储或系统偏好初始化暗色模式
-    const stored = localStorage.getItem('theme.dark');
-    if (stored === 'true') {
+    const stored = localStorage.getItem("theme.dark");
+    if (stored === "true") {
       setDark(true);
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add("dark");
       return;
     }
-    if (stored === 'false') {
+    if (stored === "false") {
       setDark(false);
-      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.remove("dark");
       return;
     }
     const prefersDark =
       window.matchMedia &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches;
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
     if (prefersDark) {
       setDark(true);
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add("dark");
     }
   }, []);
 
@@ -77,11 +93,11 @@ function App() {
     // Sync preference with <html> classList and persist it
     // 将偏好同步到 <html> 的 classList 并持久化
     if (dark) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme.dark', 'true');
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme.dark", "true");
     } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme.dark', 'false');
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme.dark", "false");
     }
   }, [dark]);
 
@@ -133,10 +149,28 @@ function App() {
             </TabsList>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
               <Input placeholder="Search tasks… 搜索任务" className="sm:w-64" />
-              <Button variant="ghost" className="justify-start sm:w-auto">
-                <Calendar className="mr-2 size-4" />
-                本周排期
-              </Button>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    className="justify-start sm:w-auto"
+                  >
+                    <CalendarIcon className="mr-2 size-4" />
+                    本周排期
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="end">
+                  <Calendar
+                    mode="single"
+                    selected={scheduleDate}
+                    // Update selected date when user picks a day
+                    // 当用户选择某一天时更新当前排期日期
+                    onSelect={setScheduleDate}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
             </div>
           </div>
 
@@ -235,7 +269,7 @@ function App() {
                   </CardHeader>
                   <CardContent className="space-y-3 text-sm text-muted-foreground">
                     <div className="flex items-center gap-3">
-                      <Calendar className="size-4" />
+                      <CalendarIcon className="size-4" />
                       制定首屏动画节奏与加载策略
                     </div>
                     <div className="flex items-center gap-3">
